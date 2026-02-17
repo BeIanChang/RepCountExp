@@ -1,0 +1,22 @@
+# Dataset and archives
+data/
+OneDrive_1_2026-2-16/
+OneDrive_1_2026-2-16.zip
+
+# Large/generated intermediate artifacts
+outputs/00_index/
+outputs/01_preview/
+outputs/02_pose/
+outputs/03_signals/
+
+# Keep final reports/metrics under outputs/04_results
+!outputs/04_results/
+!outputs/04_results/**
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
