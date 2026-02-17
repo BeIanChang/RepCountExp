@@ -202,21 +202,28 @@ Reference: `outputs/00_index/data_quality_report.json`
 
 - overall: MAE **4.025**, RMSE **5.189**, OBOA **0.200**, event F1 **0.280**
 
+- Parameters:
+  - r_quantile = 0.05
+  - r_floor = 0.05
+  - eps_phi = 0.45
+  - cooldown = 0.20s
+  - vote_k = 2
+
 Interpretation:
 
 - Compared with moving-onset, phase-crossing + Fix1 improved count accuracy substantially (MAE/RMSE).
 - Event-level alignment also improved, but is still below target (`F1 < 0.35`).
-- Current bottleneck is mainly phase rejection (`fail_phi` dominates), not radius rejection (`fail_r` is minimal).
+- Current bottleneck is mainly **phase rejection (`fail_phi` dominates)**, not radius rejection (`fail_r` is minimal).
 
 ## Known issues and risks
 
-- The debug subset is small (40 videos), so metrics are not yet stable.
+- The debug subset is **small** (40 videos), so metrics are not yet stable.
 - Event F1 is still below the threshold for boundary post-alignment (`0.35`).
 - Undercount remains the dominant error mode (negative signed error).
 
 ## Recommended next steps
 
-1. Tune per-action phase tolerance (`eps_phi`) and keep phase-crossing + Fix1 vote structure.
-2. Tune streaming gates by action (`cooldown`, `r_quantile`, `crossing hysteresis`) using the existing diagnostic counters.
-3. Expand evaluation to a larger subset or full split once thresholds stabilize.
-4. Enable optional `snap-to-trough` only after event F1 reaches `>= 0.35`.
+1. Refine primary phase progress computation (**local phase integration**)
+2. **Per-action** eps_phi tuning (push_up likely needs looser threshold)
+3. Apply **snap-to-trough boundary alignment** for F1 improvement
+4. **Expand beyond debug subset** once stable
