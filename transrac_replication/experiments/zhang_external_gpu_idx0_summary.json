@@ -1,0 +1,10 @@
+{
+  "n_videos": 1,
+  "n_failed": 0,
+  "mae_raw": 2.0,
+  "mae_normalized": 0.14285714285714285,
+  "mae_normalized_p1": 0.14184397163120568,
+  "obo": 0.0,
+  "dataset_mode": "quva",
+  "out_csv": "transrac_replication\\experiments\\zhang_external_gpu_idx0_pred.csv"
+}

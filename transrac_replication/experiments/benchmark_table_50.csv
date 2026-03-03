@@ -1,0 +1,4 @@
+model,mae,obo,last_loss,steps,summary_path
+zhang,6.755510330200195,0.1,0.3189966380596161,500.0,transrac_replication\experiments\baselines_50\zhang\summary.json
+repnet,6.760311126708984,0.1,0.12131884694099426,500.0,transrac_replication\experiments\baselines_50\repnet\summary.json
+transrac,9.253817558288574,0.06,0.09012869000434875,500.0,transrac_replication\experiments\transrac_50\summary.json

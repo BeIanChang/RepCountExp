@@ -1,0 +1,252 @@
+--- page 7 ---
+process. We train our remaining layers of the model for
+16K steps with a declining learning rate of 8 × 10−6 and
+optimized by the Adam optimizer using a batch size of 16.
+Additional details are provided on the code.
+5.3. Fine-grained Annotation
+Observing from the Fig. 4, it is easy to find accurate pe-
+riodic location information on the ground truth, which is
+essential for accurately counting. As each kind of action
+has different characteristics, some activities, such as bench
+press, will be completed speed rate highly, due to the excel-
+lent energy of people at the beginning. However, at the end
+of the action, the rate will slow down. On the other hand,
+the period length of specific actions can be more uniform.
+As the examples of Fig. 4 shown, ”front-raise” is easier for
+the man to finish in a statable period. It is because we anno-
+tated the data in a more fine-grained way, by which we can
+get the locations of all kinds of actions from our dataset,
+we have the opportunity to fine-tune the structure of the
+model for different needs. Of course, there is no chance
+to set the density map as a predictor of our model without
+fine-grained annotations. Overall, a more fine-grained an-
+notation is necessary to precisely help the model count the
+number of periods.
+Figure 4. Visualization of density map. Here are comparisons
+between the ground truth and prediction result from our model.
+We can see from the first pair that the duration of videos in our
+dataset varies.
+5.4. Evaluation and Comparison
+We evaluate the effectiveness of the model from multiple
+aspects. When we compare the TransRAC proposed with
+RepNet on RepCount (Part-A and Part-B) and UCFRep
+datasets, for a fair comparison, we modify the last fully-
+connection layer of RepNet [5] to make it capable of han-
+dling those videos containing more than 32 action periods.
+Unless otherwise specified, we train the networks on Rep-
+Count Part-A and validate them on the test set of Part-A,
+obtaining the results shown in Tab. 2. In addition, we com-
+pare some SOTA action recognition methods [6, 7, 23] and
+change output layers accordingly to adapt to our task. Far-
+ther more, we also compare the SOTA method [10] in the
+action segmentation field. More detail can be seen in the
+supplementary materials. One can observe that TransRAC,
+our model outperforms them by a notable margin on all the
+considered datasets.
+Generalization. From Tab. 3, it also can be seen that the
+TransRAC model generalizes well on multiple datasets.
+RepCount A
+Method MAE↓ OBO↑
+X3D [7] 0.9105 0.1059
+TANet [6] 0.6624 0.0993
+Video SwinT [23] 0.5756 0.1324
+Huang et al. [10] 0.5267 0.1589
+RepNet [5] 0.9950 0.0134
+Zhang et al. [39] 0.8786 0.1554
+Ours 0.4431 0.2913
+Table 2. Performance of different method onRepCount part-A test
+when trained on the same train set of RepCount.
+RepCount B UCFRep
+Method MAE ↓ OBO ↑ MAE ↓ OBO ↑
+RepNet [5] 0.9994 0.0025 0.9985 0.009
+Ours 0.7839 0.091 0.6401 0.324
+Table 3. Performance of different method onRepCount part-B and
+UCFRep when trained on the same train set of RepCount part-A.
+Figure 5. Visualization of bad cases. Here are results of two
+bad cases our model predicted. In the first case, another people is
+moving
+While our TransRAC performs well on the major part of
+the data, there still are some failure cases, as Fig. 5 shown.
+For the top one in Fig. 5, we achieve a bad predicted re-
+sult because there is more than one person moving in the
+video. The failure case on the bottom indicates that the
+frame extracting strategy could diminish the performance
+
+--- page 8 ---
+of our model in some extreme situations. It can be seen that
+there is an apparent difference between the predicted den-
+sity map and the ground truth, especially in the left part. As
+this sample video has a total number of frames of 772, most
+of the actions concentrate in the first 400 frames, neither
+the ground truth density map nor the output of our model is
+capable of handling such imbalance.
+5.5. Ablation Studies
+We perform several ablations to justify the decisions
+made while designing TransRAC. We train our model on
+a train set of part-A and then evaluate the model on the test
+set of part-A. More ablation experiments can be seen in the
+supplementary material.
+Correlation matrix. In Tab. 4, We compare the impact of
+applying different correlation matrix to our model. Tem-
+poral self-similarity matrix (TSM) [5] applies squared eu-
+clidean distance as the similarity function. But we found
+using the self-attention mechanism to calculate the correla-
+tion matrix is better. Since the experiment illustrates the
+self-attention mechanism could substantially improve the
+performance of our model, our model uses the self-attention
+mechanism.
+RepCount A
+Correlation matrix MAE ↓ OBO ↑
+TSM 0.5678 0.2251
+Self-attention (Ours) 0.4431 0.2913
+Table 4. Result of our model applying different correlation matrix
+when trained on training set of RepCount part-A.
+Density map . We build four models to verify the effec-
+tiveness of the density map, as shown in the first four rows
+of Tab. 5. We could conclude that using density map re-
+gressor as the period predictor is significantly better than
+original classifiers. As shown in the third and the four rows
+of Tab. 5, if we replace the classifiers with density map re-
+gressor, RepNet’s performance has been significantly im-
+proved. The comparison result indicates that the Density
+map is more suitable for repetitive action counting.
+Multi-scale. In Tab. 5, we compare the impact of applying
+different scales. We find that the multi-scale model per-
+forms better than the single-scale model when the number
+of frames is equal. The experiment demonstrates that more
+temporal features at different scales can obtain more pe-
+riod information. It is evident that multi-scale fused method
+brings a considerable benefit for model.
+6. Conclusion
+In this paper, considering the tough problems of exist-
+ing methods in dealing with long videos in more realis-
+tic scenarios, we propose a new large-scale repetitive ac-
+RepCount A
+Method MAE↓ OBO ↑
+ResNet [9] + CLS 0.9950 0.0134
+ResNet [9] + DM 0.6905 0.0811
+SwinT [22] + CLS 0.7027 0.118
+SwinT [22] + DM 0.6781 0.138
+Ours (Scale-1) 0.6595 0.1854
+Ours (Scale-4) 0.5434 0.2649
+Ours (Scale-8) 0.6657 0.192
+Ours (Multi) 0.4431 0.2913
+Table 5. The result of abliation study when models trained on
+RepCount part-A. ResNet+CLS indicates the original structure of
+RepNet [5]. ResNet + DM indicates replacing the last layers with
+the density map regressor. The same applies to swinT which in-
+dicates swin-transformer. Ours (Scale-X) indicates the single col-
+umn without multi-scale correlation, where X represent V1, V2,
+and V3. Ours (Multi) indicates our proposed structure.
+tion counting dataset. Such a dataset covers a wide variety
+of video lengths where action interruption or action incon-
+sistencies situations occur in the video, this is more real-
+istic. For model interpretability and more accurate eval-
+uation, we further provide fine-grained annotation. The
+overall dataset contains 1,451 videos with about 20,000 an-
+notations, which is more challenging and has the poten-
+tial to be a new benchmark. To balance the performance
+and efficiency, we propose to encode multi-scale temporal
+correlation with a transformer to tackle the repetitive ac-
+tion counting problems in realistic scenarios. We also pro-
+pose a density map regression-based method to predict the
+action period, which yields better performance with suf-
+ficient interpretability. Extensive experiments show that
+our method achieves state-of-the-art results on all datasets
+and also achieves better performance on the unseen dataset
+without fine-tuning.
+Broader Impact and Limitations. The proposed dataset
+is about the counting of repetitive actions, which means
+videos from our dataset are human-centric. The abuse of our
+dataset may cause privacy leaks. The usage of our dataset
+is limited to academic research. The proposed method pre-
+dicts results based on the dataset, which may include some
+negative social impacts. Thus, the results conducted by our
+method may reflect the bias from the dataset. Other techni-
+cal limitations are talked about in the Sec. 5.
+Acknowledgements. The work was supported by National
+Key R&D Program of China (2018AAA0100704), NSFC
+#61932020, #62172279, Science and Technology Commis-
+sion of Shanghai Municipality (Grant No. 20ZR1436000),
+and “Shuguang Program” supported by Shanghai Education
+Development Foundation and Shanghai Municipal Educa-
+tion Commission.
+
+--- page 12 ---
+Division Regular setting Open-set setting
+Num. of videos Total frames Num. of videos Total frames
+Train 758 637,545 655 560,402
+val 131 109,854 130 77,103
+test 152 129,993 256 239,887
+Table 8. Regular setting and Open-setting of RepCount partA
+Method regular setting Open-set setting
+MAE↓ OBO↑ MAE↓ OBO↑
+Huang et al. [10] 0.5267 0.1589 1.0000 0.0000
+Ours 0.4431 0.2913 0.6249 0.2040
+Table 9. Performance of different methods on two settings of RepCount partA.
+RepCount A
+Method MAE↓ OBO ↑
+Scale-1 0.6595 0.1854
+Scale-4 0.5434 0.2649
+Scale-8 0.6657 0.192
+Ours 0.4431 0.2913
+Table 10. The experimental results of pipelines with differ-
+ent scales. Scale-i, where i ∈ { 1, 4, 8}, represents the tempo-
+ral length of video subsequence, which is the input of Encoder
+ϕ. The Ours, means cancatenating three scales video subsequence
+together, have the lowest MAE. We build all the above models by
+extracting 64 frames from the original video.
+RepCount A
+Samle rates Scales MAE↓ OBO ↑
+64 Scale-1 0.6595 0.185
+Scale-8 0.6657 0.192
+128 Scale-1 0.6191 0.191
+Scale-8 0.4926 0.2302
+Table 11. Performance of different scales at different sample
+rates. The first column, sample rates, indicates different frame
+sample number from initial videos. Scale-i, where i ∈ { 1, 8},
+represents the temporal length of video subsquence.
+is more difference reflected between different video sub-
+sequence scales. Although single-frame has improved the
+MAE and OBO, the progress of 8-frames is more excellent.
+A.5. Compare to action segmentation
+We elaborate the definitions and differences between ac-
+tion segmentation and repetitive action counting. Given an
+input video, action segmentation is to segment the tempo-
+ral bound for different types of actions but repetitive ac-
+tion counting aims to count the number of repetitive ac-
+tion [5, 39]. Two main differences are as follows: i) for ac-
+tion segmentation, the same action continuously repeating
+many times will be segmented into a single temporal bound.
+Thus, it is difficult to handle videos with high-frequency
+repetitive actions. However, the variation in the frequency
+of repetitive action is huge, e.g., the min/max cycle length
+is 0.1/10.96 in our dataset, which degenerates action seg-
+mentation method; ii) action segmentation can only address
+predefined action types and cannot handle open-set setting,
+where action types in the test set that do not exist in the
+training set. However, repetitive counting is to record re-
+peated actions regardless of the action category.
+To verify the above differences, we further perform ex-
+periments in Tab. 9. Under both settings of Tab. 8, our
+method achieves better performance compared to action
+segmentation [10]. Therefore, our task is not a trivial case
+of action segmentation.
+B. Dataset description
+B.1. Data duration
+The duration in Table 1 means video length, not the cycle
+length of each action, which shows that our dataset contains
+longer videos. In addition, not only the short action but the
+diversity of actions makes the task harder and more useful.
+The min/max cycle length between Ours and UCF526 [39]
+is (0.1/10.96 vs 0.12/6.76), which shows our dataset is more
+challenging.
+B.2. Open-set setting
+We add an open-set setting to demonstrate the better abil-
+ity of our method when dealing with unseen action types in
+the training set. Therefore, we re-split the RepCount partA
+into a new train/val and test subset. For regular settings,
+videos are divided randomly. For Open-set setting, the ac-
+tion types in train/val/test are disjoint, where the actions in
+the test set do not appear in the training set. More details
+show in Tab. 8.

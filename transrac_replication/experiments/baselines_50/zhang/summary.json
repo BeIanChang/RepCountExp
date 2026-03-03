@@ -1,0 +1,20 @@
+{
+  "model": "zhang",
+  "train_stats": {
+    "last_loss": 0.3189966380596161,
+    "steps": 500.0,
+    "checkpoint": "transrac_replication\\experiments\\baselines_50\\zhang\\model_last.pt",
+    "log_csv": "transrac_replication\\experiments\\baselines_50\\zhang\\train_log.csv"
+  },
+  "eval_stats": {
+    "mae": 6.755510330200195,
+    "obo": 0.1
+  },
+  "config": {
+    "batch_size": 4,
+    "max_steps": 500,
+    "lr": 0.0001,
+    "device": "cpu",
+    "cache_dir": "transrac_replication\\experiments\\cache_embeddings_50"
+  }
+}

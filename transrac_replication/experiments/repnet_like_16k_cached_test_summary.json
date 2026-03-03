@@ -1,0 +1,17 @@
+{
+  "model": "repnet",
+  "split": "test",
+  "n_videos": 151,
+  "mae_raw": 11.1127835014798,
+  "mae_norm": 1.39681990241499,
+  "mae_norm_p1": 1.346052224458103,
+  "obo": 0.046357615894039736,
+  "mae_round": 11.112582781456954,
+  "mae_round_norm": 1.4120340669157772,
+  "mae_round_norm_p1": 1.3606910420180076,
+  "obo_round": 0.0728476821192053,
+  "exact_round": 0.039735099337748346,
+  "checkpoint": "transrac_replication\\experiments\\baselines_full_test_16k\\repnet\\model_last.pt",
+  "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full",
+  "out_csv": "transrac_replication\\experiments\\repnet_like_16k_cached_test_predictions.csv"
+}

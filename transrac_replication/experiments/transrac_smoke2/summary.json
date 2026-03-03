@@ -1,0 +1,23 @@
+{
+  "model": "transrac",
+  "train_stats": {
+    "last_loss": 0.005991909187287092,
+    "steps": 1.0,
+    "checkpoint": "transrac_replication\\experiments\\transrac_smoke2\\model_last.pt",
+    "log_csv": "transrac_replication\\experiments\\transrac_smoke2\\train_log.csv"
+  },
+  "eval_stats": {
+    "mae": 7.961821556091309,
+    "mae_normalized": 0.8846468329429626,
+    "obo": 0.0
+  },
+  "config": {
+    "batch_size": 1,
+    "max_steps": 1,
+    "lr": 8e-06,
+    "device": "cpu",
+    "eval_split": "valid",
+    "cache_dir": "transrac_replication\\experiments\\cache_embeddings_smoke",
+    "use_torchvision_backbone": false
+  }
+}

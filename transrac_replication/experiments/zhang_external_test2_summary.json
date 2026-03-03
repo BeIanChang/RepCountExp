@@ -1,0 +1,10 @@
+{
+  "n_videos": 2,
+  "n_failed": 0,
+  "mae_raw": 2.0,
+  "mae_normalized": 0.23809523809523808,
+  "mae_normalized_p1": 0.23485641204511104,
+  "obo": 0.0,
+  "dataset_mode": "quva",
+  "out_csv": "transrac_replication\\experiments\\zhang_external_test2_predictions.csv"
+}

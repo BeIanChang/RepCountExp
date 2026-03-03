@@ -65,10 +65,19 @@ def count_metrics(df: pd.DataFrame) -> Dict[str, float]:
     y_true = df["true_count"].to_numpy(dtype=float)
     y_pred = df["pred_count"].to_numpy(dtype=float)
     err = y_pred - y_true
+    abs_err = np.abs(err)
     mae = float(np.mean(np.abs(err)))
     rmse = float(np.sqrt(np.mean(err**2)))
     oboa = float(np.mean(np.abs(err) <= 1.0))
-    return {"mae": mae, "rmse": rmse, "oboa": oboa}
+    mae_norm = float(np.mean(abs_err / np.clip(y_true, 1.0, None)))
+    mae_norm_p1 = float(np.mean(abs_err / (y_true + 1e-1)))
+    return {
+        "mae": mae,
+        "rmse": rmse,
+        "oboa": oboa,
+        "mae_norm": mae_norm,
+        "mae_norm_p1": mae_norm_p1,
+    }
 
 
 def event_match_counts(pred: List[Tuple[int, int]], gt: List[Tuple[int, int]], k: int) -> Tuple[int, int, int]:
@@ -96,8 +105,10 @@ def event_match_counts(pred: List[Tuple[int, int]], gt: List[Tuple[int, int]], k
 def event_metrics(df: pd.DataFrame, k: int) -> Dict[str, float]:
     tp = fp = fn = 0
     for _, row in df.iterrows():
-        pred = parse_periods(row.get("pred_periods_json", ""))
-        gt = parse_periods(row.get("true_periods_json", ""))
+        pred_val = row.get("pred_periods_json", "")
+        gt_val = row.get("true_periods_json", "")
+        pred = parse_periods(str(pred_val) if pred_val is not None else "")
+        gt = parse_periods(str(gt_val) if gt_val is not None else "")
         tpi, fpi, fni = event_match_counts(pred, gt, k)
         tp += tpi
         fp += fpi
@@ -160,7 +171,8 @@ def main() -> None:
                 }
             )
             summary_lines.append(
-                f"- `{split_name}` n={len(split_df)} | MAE={cm['mae']:.3f} RMSE={cm['rmse']:.3f} OBOA={cm['oboa']:.3f} "
+                f"- `{split_name}` n={len(split_df)} | MAE={cm['mae']:.3f} MAE_norm={cm['mae_norm']:.3f} "
+                f"MAE_norm_p1={cm['mae_norm_p1']:.3f} RMSE={cm['rmse']:.3f} OBOA={cm['oboa']:.3f} "
                 f"| P/R/F1@K={args.event_k}: {em['event_precision']:.3f}/{em['event_recall']:.3f}/{em['event_f1']:.3f}"
             )
 

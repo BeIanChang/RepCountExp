@@ -1,0 +1,9 @@
+{
+  "n_videos": 5,
+  "n_failed": 0,
+  "mae_raw": 1.7591808319091797,
+  "mae_normalized": 0.2581922926221575,
+  "mae_normalized_p1": 0.25303164252002985,
+  "obo": 0.2,
+  "out_csv": "transrac_replication\\experiments\\repnet_external_test5_predictions.csv"
+}

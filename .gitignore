@@ -10,6 +10,8 @@ outputs/01_preview/
 outputs/02_pose/
 outputs/03_signals/
 
+papers/**
+
 # Keep final reports/metrics under outputs/04_results
 !outputs/04_results/
 !outputs/04_results/**

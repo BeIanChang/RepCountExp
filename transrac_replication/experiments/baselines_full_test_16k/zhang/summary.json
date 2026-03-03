@@ -1,0 +1,22 @@
+{
+  "model": "zhang",
+  "train_stats": {
+    "last_loss": 0.07506346702575684,
+    "steps": 16000.0,
+    "checkpoint": "transrac_replication\\experiments\\baselines_full_test_16k\\zhang\\model_last.pt",
+    "log_csv": "transrac_replication\\experiments\\baselines_full_test_16k\\zhang\\train_log.csv"
+  },
+  "eval_stats": {
+    "mae": 11.12454891204834,
+    "mae_normalized": 1.378618836402893,
+    "obo": 0.052980132450331126
+  },
+  "config": {
+    "batch_size": 16,
+    "max_steps": 16000,
+    "lr": 0.0001,
+    "device": "cpu",
+    "eval_split": "test",
+    "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full"
+  }
+}

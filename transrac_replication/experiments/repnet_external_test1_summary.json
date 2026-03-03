@@ -1,0 +1,8 @@
+{
+  "n_videos": 1,
+  "mae_raw": 3.4117650985717773,
+  "mae_normalized": 0.24369750704084123,
+  "mae_normalized_p1": 0.2419691559270764,
+  "obo": 0.0,
+  "out_csv": "transrac_replication\\experiments\\repnet_external_test1_predictions.csv"
+}

@@ -1,0 +1,2 @@
+video,gt_count,pred_count,best_stride,best_conf,abs_err,is_obo,norm_err,norm_err_p1
+train3344.mp4,14.0,10.588234901428223,1,0.8296106457710266,3.4117650985717773,False,0.24369750704084123,0.2419691559270764

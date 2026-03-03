@@ -1,0 +1,35 @@
+experiment:
+  name: transrac_repcount_a
+  seed: 42
+
+data:
+  num_frames: 64
+  frame_size: 224
+  scales:
+    v1:
+      window: 1
+      stride: 1
+    v4:
+      window: 4
+      stride: 2
+    v8:
+      window: 8
+      stride: 4
+
+model:
+  backbone: video_swin_tiny
+  pretrained: kinetics400
+  freeze_backbone: true
+  embedding_dim: 512
+  attention_heads: 4
+  num_scales: 3
+
+train:
+  batch_size: 16
+  max_steps: 16000
+  learning_rate: 8.0e-6
+  optimizer: adam
+  loss: mse
+
+eval:
+  metrics: [mae, obo]

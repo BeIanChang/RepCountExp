@@ -1,0 +1,20 @@
+{
+  "model": "repnet",
+  "train_stats": {
+    "last_loss": 0.006299497094005346,
+    "steps": 5.0,
+    "checkpoint": "transrac_replication\\experiments\\baselines_smoke\\repnet\\model_last.pt",
+    "log_csv": "transrac_replication\\experiments\\baselines_smoke\\repnet\\train_log.csv"
+  },
+  "eval_stats": {
+    "mae": 7.976040363311768,
+    "obo": 0.0
+  },
+  "config": {
+    "batch_size": 1,
+    "max_steps": 5,
+    "lr": 0.0001,
+    "device": "cpu",
+    "cache_dir": "transrac_replication\\experiments\\cache_embeddings_smoke"
+  }
+}

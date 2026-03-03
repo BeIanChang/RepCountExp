@@ -1,0 +1,17 @@
+{
+  "model": "zhang",
+  "split": "test",
+  "n_videos": 151,
+  "mae_raw": 11.124713442972954,
+  "mae_norm": 1.3783623702475358,
+  "mae_norm_p1": 1.3282024796105107,
+  "obo": 0.052980132450331126,
+  "mae_round": 11.125827814569536,
+  "mae_round_norm": 1.3751170830305812,
+  "mae_round_norm_p1": 1.3248972873181797,
+  "obo_round": 0.06622516556291391,
+  "exact_round": 0.013245033112582781,
+  "checkpoint": "transrac_replication\\experiments\\baselines_full_test_16k\\zhang\\model_last.pt",
+  "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full",
+  "out_csv": "transrac_replication\\experiments\\zhang_like_16k_cached_test_predictions.csv"
+}

@@ -1,0 +1,15 @@
+{
+  "n_videos": 152,
+  "n_failed": 0,
+  "mae_raw": 12.618907526037411,
+  "mae_normalized": 21008.37284294696,
+  "mae_normalized_p1": 0.7993882064348087,
+  "obo": 0.25,
+  "mae_round": 12.631578947368421,
+  "mae_round_normalized": 0.6188078983730056,
+  "mae_round_normalized_p1": 0.7888682796199201,
+  "obo_round": 0.29605263157894735,
+  "exact_round": 0.125,
+  "protocol": "paper64",
+  "out_csv": "transrac_replication\\experiments\\repnet_external_test_paper64_predictions.csv"
+}

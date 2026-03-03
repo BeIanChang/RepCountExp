@@ -1,0 +1,22 @@
+{
+  "model": "repnet",
+  "train_stats": {
+    "last_loss": 0.12392933666706085,
+    "steps": 2000.0,
+    "checkpoint": "transrac_replication\\experiments\\baselines_full_test\\repnet\\model_last.pt",
+    "log_csv": "transrac_replication\\experiments\\baselines_full_test\\repnet\\train_log.csv"
+  },
+  "eval_stats": {
+    "mae": 11.139041900634766,
+    "mae_normalized": 1.048633337020874,
+    "obo": 0.059602649006622516
+  },
+  "config": {
+    "batch_size": 16,
+    "max_steps": 2000,
+    "lr": 0.0001,
+    "device": "cpu",
+    "eval_split": "test",
+    "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "model": "transrac",
+  "split": "test",
+  "n_videos": 151,
+  "mae_raw": 11.190271131250242,
+  "mae_norm": 0.9955754852830586,
+  "mae_norm_p1": 0.9614412604969002,
+  "obo": 0.07947019867549669,
+  "mae_round": 11.172185430463577,
+  "mae_round_norm": 1.0036492042457072,
+  "mae_round_norm_p1": 0.9690983945176586,
+  "obo_round": 0.11258278145695365,
+  "exact_round": 0.026490066225165563,
+  "checkpoint": "transrac_replication\\experiments\\transrac_full_test_16k\\model_last.pt",
+  "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full",
+  "out_csv": "transrac_replication\\experiments\\transrac_16k_cached_test_predictions.csv"
+}
