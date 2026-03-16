@@ -1,0 +1,22 @@
+{
+  "model": "videoswint",
+  "train_stats": {
+    "last_loss": 0.0022024891804903746,
+    "steps": 16000.0,
+    "checkpoint": "transrac_replication\\experiments\\paper_methods_cached16k\\videoswint\\model_last.pt",
+    "log_csv": "transrac_replication\\experiments\\paper_methods_cached16k\\videoswint\\train_log.csv"
+  },
+  "eval_stats": {
+    "mae": 11.84360408782959,
+    "mae_normalized": 1.109597086906433,
+    "obo": 0.06622516556291391
+  },
+  "config": {
+    "batch_size": 8,
+    "max_steps": 16000,
+    "lr": 0.0001,
+    "device": "cuda",
+    "eval_split": "test",
+    "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full"
+  }
+}

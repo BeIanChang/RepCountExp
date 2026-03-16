@@ -50,6 +50,21 @@ class _DensityFromCorr(nn.Module):
         return self.fc(x)
 
 
+class _DensityFromFeatures(nn.Module):
+    def __init__(self, in_dim: int, hidden_dim: int):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(in_dim, hidden_dim),
+            nn.ReLU(inplace=True),
+            nn.Linear(hidden_dim, 1),
+            nn.ReLU(inplace=True),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # x [B,N,D] -> [B,N]
+        return self.net(x).squeeze(-1)
+
+
 class RepNetLikeBaseline(nn.Module):
     """RepNet-like baseline using single-scale temporal self-similarity."""
 
@@ -99,10 +114,140 @@ class ZhangLikeBaseline(nn.Module):
         raise RuntimeError("Use forward_from_embeddings with cached embedding dataset for baselines.")
 
 
+class X3DLikeBaseline(nn.Module):
+    """X3D-inspired temporal conv baseline on cached embeddings."""
+
+    def __init__(self, cfg: BaselineConfig):
+        super().__init__()
+        self.cfg = cfg
+        self.proj = nn.LazyLinear(cfg.hidden_dim)
+        self.temporal = nn.Sequential(
+            nn.Conv1d(cfg.hidden_dim, cfg.hidden_dim, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv1d(cfg.hidden_dim, cfg.hidden_dim, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+        )
+        self.head = _DensityFromFeatures(cfg.hidden_dim, cfg.hidden_dim)
+
+    def forward_from_embeddings(self, embeddings: Dict[str, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor]:
+        x = embeddings["v1"]
+        h = self.proj(x)
+        h = h + self.temporal(h.transpose(1, 2)).transpose(1, 2)
+        density = self.head(h)
+        corr = _pairwise_l2_corr(h).unsqueeze(-1)
+        return density, corr
+
+    def forward(self, multi_scale: Dict[str, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor]:
+        raise RuntimeError("Use forward_from_embeddings with cached embedding dataset for baselines.")
+
+
+class TANetLikeBaseline(nn.Module):
+    """TANet-inspired baseline with temporal adaptive gating."""
+
+    def __init__(self, cfg: BaselineConfig):
+        super().__init__()
+        self.cfg = cfg
+        self.proj = nn.LazyLinear(cfg.hidden_dim)
+        self.conv = nn.Conv1d(cfg.hidden_dim, cfg.hidden_dim, kernel_size=3, padding=1)
+        self.gate = nn.Sequential(
+            nn.Linear(cfg.hidden_dim, cfg.hidden_dim),
+            nn.ReLU(inplace=True),
+            nn.Linear(cfg.hidden_dim, cfg.hidden_dim),
+            nn.Sigmoid(),
+        )
+        self.head = _DensityFromFeatures(cfg.hidden_dim, cfg.hidden_dim)
+
+    def forward_from_embeddings(self, embeddings: Dict[str, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor]:
+        x = embeddings["v1"]
+        h = self.proj(x)
+        g = self.gate(h)
+        t = self.conv(h.transpose(1, 2)).transpose(1, 2)
+        h = h + g * t
+        density = self.head(h)
+        corr = _pairwise_l2_corr(h).unsqueeze(-1)
+        return density, corr
+
+    def forward(self, multi_scale: Dict[str, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor]:
+        raise RuntimeError("Use forward_from_embeddings with cached embedding dataset for baselines.")
+
+
+class VideoSwinTLikeBaseline(nn.Module):
+    """Video-SwinT-inspired transformer baseline on cached embeddings."""
+
+    def __init__(self, cfg: BaselineConfig):
+        super().__init__()
+        self.cfg = cfg
+        self.proj = nn.LazyLinear(cfg.hidden_dim)
+        layer = nn.TransformerEncoderLayer(
+            d_model=cfg.hidden_dim,
+            nhead=8,
+            dim_feedforward=cfg.hidden_dim * 4,
+            dropout=0.1,
+            batch_first=True,
+            activation="gelu",
+        )
+        self.encoder = nn.TransformerEncoder(layer, num_layers=2)
+        self.head = _DensityFromFeatures(cfg.hidden_dim, cfg.hidden_dim)
+
+    def forward_from_embeddings(self, embeddings: Dict[str, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor]:
+        x = embeddings["v1"]
+        h = self.proj(x)
+        h = self.encoder(h)
+        density = self.head(h)
+        corr = _pairwise_l2_corr(h).unsqueeze(-1)
+        return density, corr
+
+    def forward(self, multi_scale: Dict[str, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor]:
+        raise RuntimeError("Use forward_from_embeddings with cached embedding dataset for baselines.")
+
+
+class HuangSegLikeBaseline(nn.Module):
+    """Action-segmentation-inspired temporal reasoning baseline."""
+
+    def __init__(self, cfg: BaselineConfig):
+        super().__init__()
+        self.cfg = cfg
+        self.proj = nn.LazyLinear(cfg.hidden_dim)
+        self.temporal = nn.Sequential(
+            nn.Conv1d(cfg.hidden_dim, cfg.hidden_dim, kernel_size=5, padding=2),
+            nn.ReLU(inplace=True),
+            nn.Conv1d(cfg.hidden_dim, cfg.hidden_dim, kernel_size=5, padding=2),
+            nn.ReLU(inplace=True),
+            nn.Conv1d(cfg.hidden_dim, cfg.hidden_dim, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+        )
+        self.boundary_head = nn.Sequential(
+            nn.Conv1d(cfg.hidden_dim, cfg.hidden_dim // 2, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv1d(cfg.hidden_dim // 2, 1, kernel_size=1),
+        )
+
+    def forward_from_embeddings(self, embeddings: Dict[str, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor]:
+        x = embeddings["v1"]
+        h = self.proj(x)
+        t = self.temporal(h.transpose(1, 2))
+        boundary = torch.sigmoid(self.boundary_head(t)).squeeze(1)
+        smooth = F.avg_pool1d(boundary.unsqueeze(1), kernel_size=5, stride=1, padding=2).squeeze(1)
+        density = F.relu(0.5 * boundary + 0.5 * smooth)
+        corr = _pairwise_l2_corr(h).unsqueeze(-1)
+        return density, corr
+
+    def forward(self, multi_scale: Dict[str, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor]:
+        raise RuntimeError("Use forward_from_embeddings with cached embedding dataset for baselines.")
+
+
 def build_baseline(model_name: str, cfg: BaselineConfig) -> nn.Module:
     name = model_name.lower()
     if name == "repnet":
         return RepNetLikeBaseline(cfg)
     if name == "zhang":
         return ZhangLikeBaseline(cfg)
+    if name == "x3d":
+        return X3DLikeBaseline(cfg)
+    if name == "tanet":
+        return TANetLikeBaseline(cfg)
+    if name in {"swin", "videoswint", "video_swin"}:
+        return VideoSwinTLikeBaseline(cfg)
+    if name in {"huang", "huang_seg", "huangseg"}:
+        return HuangSegLikeBaseline(cfg)
     raise ValueError(f"Unsupported baseline model: {model_name}")

@@ -60,6 +60,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--reject-consume-max-pi", type=float, default=1.0, help="Max pi consumed on reject.")
     parser.add_argument("--warmup-sec", type=float, default=2.5, help="Warmup window for adaptive crossing landmark.")
     parser.add_argument("--cross-hyst-pi", type=float, default=0.08, help="Phase crossing hysteresis in pi units.")
+    parser.add_argument("--pause-reset-sec", type=float, default=0.35, help="Allow brief pause before resetting ACTIVE state.")
+    parser.add_argument("--pause-delta-pi", type=float, default=0.06, help="Per-step |dphi| below this (in pi units) is considered pause-like.")
+    parser.add_argument("--phase-var-sigma", type=float, default=1.0, help="Soft penalty scale for in-window phase-step variance.")
+    parser.add_argument("--flip-sigma", type=float, default=0.35, help="Soft penalty scale for sign-flip rate in phase steps.")
+    parser.add_argument("--pause-sigma", type=float, default=0.45, help="Soft penalty scale for pause-rate within candidate window.")
     parser.add_argument(
         "--diagnostic-dir",
         type=Path,
@@ -185,6 +190,11 @@ class PhaseNativeCounter:
         reject_consume_max_pi: float,
         warmup_sec: float,
         cross_hyst_pi: float,
+        pause_reset_sec: float,
+        pause_delta_pi: float,
+        phase_var_sigma: float,
+        flip_sigma: float,
+        pause_sigma: float,
     ):
         self.signal_names = signal_names
         self.primary_signal = primary_signal
@@ -202,6 +212,11 @@ class PhaseNativeCounter:
         self.reject_consume = reject_consume_max_pi * math.pi
         self.warmup_frames = max(5, int(round(warmup_sec * self.fps)))
         self.cross_hyst = cross_hyst_pi * math.pi
+        self.pause_reset_frames = max(0, int(round(pause_reset_sec * self.fps)))
+        self.pause_delta = pause_delta_pi * math.pi
+        self.phase_var_sigma = max(1e-3, float(phase_var_sigma))
+        self.flip_sigma = max(1e-3, float(flip_sigma))
+        self.pause_sigma = max(1e-3, float(pause_sigma))
 
         self.trackers: Dict[str, OnlineSignalTracker] = {
             n: OnlineSignalTracker(
@@ -219,6 +234,7 @@ class PhaseNativeCounter:
 
         self.state = "IDLE"
         self.cooldown = 0
+        self.pause_frames = 0
         self.cross_start: Optional[int] = None
         self.prev_rel_primary: Optional[float] = None
         self.psi0: Optional[float] = None
@@ -238,6 +254,14 @@ class PhaseNativeCounter:
         self.reject_fail_vote = 0
         self.reject_fail_phi = 0
         self.reject_fail_r = 0
+        self.candidate_var_norms: List[float] = []
+        self.candidate_flip_rates: List[float] = []
+        self.candidate_pause_rates: List[float] = []
+        self.candidate_conf_phase: List[float] = []
+        self.candidate_conf_r: List[float] = []
+        self.candidate_conf_var: List[float] = []
+        self.candidate_conf_flip: List[float] = []
+        self.candidate_conf_pause: List[float] = []
 
     def _fit_psi0(self) -> None:
         if self.psi0 is not None:
@@ -299,14 +323,51 @@ class PhaseNativeCounter:
             prev = float(cur)
         return abs(acc)
 
-    def _validate_window(self, start: int, end: int) -> Tuple[bool, float, int, int, int]:
+    def _window_phase_stats(self, name: str, start: int, end: int) -> Tuple[float, float, float]:
+        psi = self.psi_hist[name]
+        if start < 0 or end >= len(psi) or end <= start:
+            return 0.0, 0.0, 1.0
+
+        seg = np.asarray(psi[start : end + 1], dtype=np.float32)
+        if len(seg) < 3:
+            return 0.0, 0.0, 1.0
+
+        d = np.diff(seg)
+        d = (d + math.pi) % (2.0 * math.pi) - math.pi
+
+        mean_abs = float(np.mean(np.abs(d)))
+        std_d = float(np.std(d))
+        var_norm = float(std_d / max(mean_abs, 1e-3))
+
+        sign = np.sign(d)
+        nz = sign != 0
+        sign = sign[nz]
+        if len(sign) < 2:
+            flip_rate = 0.0
+        else:
+            flip_rate = float(np.mean(sign[1:] != sign[:-1]))
+
+        pause_rate = float(np.mean(np.abs(d) < self.pause_delta))
+        return var_norm, flip_rate, pause_rate
+
+    def _validate_window(self, start: int, end: int) -> Tuple[bool, float, int, int, int, Dict[str, float]]:
         secondary_names = [n for n in self.signal_names if n != self.primary_signal]
         required_secondary = max(1, min(len(secondary_names), self.vote_k - 1))
 
         delta_primary = self._window_delta_local(self.primary_signal, start, end)
         primary_ok_phi = abs(delta_primary - 2.0 * math.pi) / (2.0 * math.pi) < self.eps_phi
 
+        var_norm_p, flip_rate_p, pause_rate_p = self._window_phase_stats(self.primary_signal, start, end)
+
         scores: List[float] = []
+        score_phase_list: List[float] = []
+        score_r_list: List[float] = []
+        score_var_list: List[float] = []
+        score_flip_list: List[float] = []
+        score_pause_list: List[float] = []
+        var_norm_list: List[float] = [var_norm_p]
+        flip_rate_list: List[float] = [flip_rate_p]
+        pause_rate_list: List[float] = [pause_rate_p]
         fail_phi = 0
         fail_r = 0
         sec_pass = 0
@@ -321,7 +382,15 @@ class PhaseNativeCounter:
             r_min = self.r_floor if len(r_recent) == 0 else max(self.r_floor, float(np.quantile(r_recent, self.r_quantile)))
             score_phi = float(np.exp(-abs(delta_primary - 2.0 * math.pi) / (0.5 * math.pi)))
             score_r = float(np.clip(r_med / max(r_min, 1e-3), 0.0, 2.0) / 2.0)
-            scores.append(0.5 * (score_phi + score_r))
+            score_var = float(np.exp(-var_norm_p / self.phase_var_sigma))
+            score_flip = float(np.exp(-flip_rate_p / self.flip_sigma))
+            score_pause = float(np.exp(-pause_rate_p / self.pause_sigma))
+            scores.append(0.40 * score_phi + 0.20 * score_r + 0.15 * score_var + 0.15 * score_flip + 0.10 * score_pause)
+            score_phase_list.append(score_phi)
+            score_r_list.append(score_r)
+            score_var_list.append(score_var)
+            score_flip_list.append(score_flip)
+            score_pause_list.append(score_pause)
 
         for n in secondary_names:
             rad = np.asarray(self.r_hist[n][start : end + 1], dtype=np.float32)
@@ -345,12 +414,35 @@ class PhaseNativeCounter:
 
             score_phi = float(np.exp(-max(0.0, math.pi - delta) / (0.5 * math.pi)))
             score_r = float(np.clip(r_med / max(r_min, 1e-3), 0.0, 2.0) / 2.0)
-            scores.append(0.5 * (score_phi + score_r))
+            var_norm, flip_rate, pause_rate = self._window_phase_stats(n, start, end)
+            var_norm_list.append(var_norm)
+            flip_rate_list.append(flip_rate)
+            pause_rate_list.append(pause_rate)
+
+            score_var = float(np.exp(-var_norm / self.phase_var_sigma))
+            score_flip = float(np.exp(-flip_rate / self.flip_sigma))
+            score_pause = float(np.exp(-pause_rate / self.pause_sigma))
+            scores.append(0.40 * score_phi + 0.20 * score_r + 0.15 * score_var + 0.15 * score_flip + 0.10 * score_pause)
+            score_phase_list.append(score_phi)
+            score_r_list.append(score_r)
+            score_var_list.append(score_var)
+            score_flip_list.append(score_flip)
+            score_pause_list.append(score_pause)
 
         pass_count = int(primary_ok_phi) + sec_pass
         ok = primary_ok_phi and (sec_pass >= required_secondary)
         conf = float(np.mean(scores)) if scores else 0.0
-        return ok, conf, pass_count, fail_phi, fail_r
+        stats = {
+            "mean_var_norm": float(np.mean(var_norm_list)) if var_norm_list else 0.0,
+            "mean_flip_rate": float(np.mean(flip_rate_list)) if flip_rate_list else 0.0,
+            "mean_pause_rate": float(np.mean(pause_rate_list)) if pause_rate_list else 0.0,
+            "conf_phase": float(np.mean(score_phase_list)) if score_phase_list else 0.0,
+            "conf_r": float(np.mean(score_r_list)) if score_r_list else 0.0,
+            "conf_var": float(np.mean(score_var_list)) if score_var_list else 0.0,
+            "conf_flip": float(np.mean(score_flip_list)) if score_flip_list else 0.0,
+            "conf_pause": float(np.mean(score_pause_list)) if score_pause_list else 0.0,
+        }
+        return ok, conf, pass_count, fail_phi, fail_r, stats
 
     def _phase_direction(self, t: int) -> int:
         phi_arr = self.phi_hist[self.primary_signal]
@@ -392,21 +484,27 @@ class PhaseNativeCounter:
         if self.state == "IDLE":
             if moving:
                 self.state = "ACTIVE"
+                self.pause_frames = 0
                 self.cross_start = None
                 self.prev_rel_primary = rel
             return
 
         if self.state != "ACTIVE":
             self.state = "IDLE"
+            self.pause_frames = 0
             self.cross_start = None
             self.prev_rel_primary = rel
             return
 
         if not moving:
-            self.state = "IDLE"
-            self.cross_start = None
+            self.pause_frames += 1
+            if self.pause_frames > self.pause_reset_frames:
+                self.state = "IDLE"
+                self.pause_frames = 0
+                self.cross_start = None
             self.prev_rel_primary = rel
             return
+        self.pause_frames = 0
 
         prev_rel = rel if self.prev_rel_primary is None else self.prev_rel_primary
         crossing = prev_rel <= -self.cross_hyst and rel >= self.cross_hyst
@@ -422,7 +520,15 @@ class PhaseNativeCounter:
 
                 if self.t_min <= dur <= self.t_max:
                     self.n_candidates += 1
-                    ok, conf, _, fail_phi, fail_r = self._validate_window(start, end)
+                    ok, conf, _, fail_phi, fail_r, stats = self._validate_window(start, end)
+                    self.candidate_var_norms.append(stats["mean_var_norm"])
+                    self.candidate_flip_rates.append(stats["mean_flip_rate"])
+                    self.candidate_pause_rates.append(stats["mean_pause_rate"])
+                    self.candidate_conf_phase.append(stats["conf_phase"])
+                    self.candidate_conf_r.append(stats["conf_r"])
+                    self.candidate_conf_var.append(stats["conf_var"])
+                    self.candidate_conf_flip.append(stats["conf_flip"])
+                    self.candidate_conf_pause.append(stats["conf_pause"])
                     if ok:
                         self.count += 1
                         self.periods.append((start, end))
@@ -479,6 +585,11 @@ def run_on_video(
         reject_consume_max_pi=args.reject_consume_max_pi,
         warmup_sec=args.warmup_sec,
         cross_hyst_pi=args.cross_hyst_pi,
+        pause_reset_sec=args.pause_reset_sec,
+        pause_delta_pi=args.pause_delta_pi,
+        phase_var_sigma=args.phase_var_sigma,
+        flip_sigma=args.flip_sigma,
+        pause_sigma=args.pause_sigma,
     )
 
     for t in range(n_frames):
@@ -489,6 +600,14 @@ def run_on_video(
         "pred_count": counter.count,
         "pred_periods": counter.periods,
         "mean_confidence": float(np.mean(counter.confidences)) if counter.confidences else 0.0,
+        "mean_var_norm": float(np.mean(counter.candidate_var_norms)) if counter.candidate_var_norms else 0.0,
+        "mean_flip_rate": float(np.mean(counter.candidate_flip_rates)) if counter.candidate_flip_rates else 0.0,
+        "mean_pause_rate": float(np.mean(counter.candidate_pause_rates)) if counter.candidate_pause_rates else 0.0,
+        "conf_phase": float(np.mean(counter.candidate_conf_phase)) if counter.candidate_conf_phase else 0.0,
+        "conf_r": float(np.mean(counter.candidate_conf_r)) if counter.candidate_conf_r else 0.0,
+        "conf_var": float(np.mean(counter.candidate_conf_var)) if counter.candidate_conf_var else 0.0,
+        "conf_flip": float(np.mean(counter.candidate_conf_flip)) if counter.candidate_conf_flip else 0.0,
+        "conf_pause": float(np.mean(counter.candidate_conf_pause)) if counter.candidate_conf_pause else 0.0,
         "n_rejects": int(counter.rejects),
         "fps": fps,
         "n_frames": n_frames,
@@ -597,6 +716,14 @@ def main() -> None:
         reject_fail_phi = 0
         reject_fail_r = 0
         moving_fraction = 0.0
+        mean_var_norm = 0.0
+        mean_flip_rate = 0.0
+        mean_pause_rate = 0.0
+        conf_phase = 0.0
+        conf_r = 0.0
+        conf_var = 0.0
+        conf_flip = 0.0
+        conf_pause = 0.0
 
         if not signal_file.exists():
             status = "missing_signal"
@@ -619,6 +746,14 @@ def main() -> None:
                 reject_fail_phi = int(out["reject_fail_phi"])
                 reject_fail_r = int(out["reject_fail_r"])
                 moving_fraction = float(out["moving_fraction"])
+                mean_var_norm = float(out["mean_var_norm"])
+                mean_flip_rate = float(out["mean_flip_rate"])
+                mean_pause_rate = float(out["mean_pause_rate"])
+                conf_phase = float(out["conf_phase"])
+                conf_r = float(out["conf_r"])
+                conf_var = float(out["conf_var"])
+                conf_flip = float(out["conf_flip"])
+                conf_pause = float(out["conf_pause"])
 
                 if not args.no_diagnostics and diag_targets.get(action) == video_id:
                     diag_path = args.diagnostic_dir / f"{action}_{split}_{video_id}.png"
@@ -646,6 +781,14 @@ def main() -> None:
                 "reject_fail_phi": reject_fail_phi,
                 "reject_fail_r": reject_fail_r,
                 "moving_fraction": moving_fraction,
+                "mean_var_norm": mean_var_norm,
+                "mean_flip_rate": mean_flip_rate,
+                "mean_pause_rate": mean_pause_rate,
+                "conf_phase": conf_phase,
+                "conf_r": conf_r,
+                "conf_var": conf_var,
+                "conf_flip": conf_flip,
+                "conf_pause": conf_pause,
                 "status": status,
                 "method": "phase_native_online_phase_crossing",
             }

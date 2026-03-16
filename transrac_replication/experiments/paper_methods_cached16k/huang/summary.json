@@ -1,0 +1,22 @@
+{
+  "model": "huang",
+  "train_stats": {
+    "last_loss": 0.0019339534919708967,
+    "steps": 16000.0,
+    "checkpoint": "transrac_replication\\experiments\\paper_methods_cached16k\\huang\\model_last.pt",
+    "log_csv": "transrac_replication\\experiments\\paper_methods_cached16k\\huang\\train_log.csv"
+  },
+  "eval_stats": {
+    "mae": 11.80925464630127,
+    "mae_normalized": 1.0921902656555176,
+    "obo": 0.09933774834437085
+  },
+  "config": {
+    "batch_size": 8,
+    "max_steps": 16000,
+    "lr": 0.0001,
+    "device": "cuda",
+    "eval_split": "test",
+    "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full"
+  }
+}

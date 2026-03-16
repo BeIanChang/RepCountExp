@@ -1,0 +1,17 @@
+{
+  "model": "videoswint",
+  "split": "test",
+  "n_videos": 151,
+  "mae_raw": 11.84360484097967,
+  "mae_norm": 1.1095971015694828,
+  "mae_norm_p1": 1.0737895390326329,
+  "obo": 0.06622516556291391,
+  "mae_round": 11.867549668874172,
+  "mae_round_norm": 1.1017461807184874,
+  "mae_round_norm_p1": 1.0667196658719162,
+  "obo_round": 0.09271523178807947,
+  "exact_round": 0.033112582781456956,
+  "checkpoint": "transrac_replication\\experiments\\paper_methods_cached16k\\videoswint\\model_last.pt",
+  "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full",
+  "out_csv": "transrac_replication\\experiments\\videoswint_cached16k_test_predictions.csv"
+}

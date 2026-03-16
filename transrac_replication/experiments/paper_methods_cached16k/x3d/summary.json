@@ -1,0 +1,22 @@
+{
+  "model": "x3d",
+  "train_stats": {
+    "last_loss": 0.0008014606428332627,
+    "steps": 16000.0,
+    "checkpoint": "transrac_replication\\experiments\\paper_methods_cached16k\\x3d\\model_last.pt",
+    "log_csv": "transrac_replication\\experiments\\paper_methods_cached16k\\x3d\\train_log.csv"
+  },
+  "eval_stats": {
+    "mae": 11.516850471496582,
+    "mae_normalized": 0.8898535966873169,
+    "obo": 0.09271523178807947
+  },
+  "config": {
+    "batch_size": 8,
+    "max_steps": 16000,
+    "lr": 0.0001,
+    "device": "cuda",
+    "eval_split": "test",
+    "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full"
+  }
+}

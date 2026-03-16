@@ -1,0 +1,22 @@
+{
+  "model": "tanet",
+  "train_stats": {
+    "last_loss": 0.010179334320127964,
+    "steps": 16000.0,
+    "checkpoint": "transrac_replication\\experiments\\paper_methods_cached16k\\tanet\\model_last.pt",
+    "log_csv": "transrac_replication\\experiments\\paper_methods_cached16k\\tanet\\train_log.csv"
+  },
+  "eval_stats": {
+    "mae": 12.1587553024292,
+    "mae_normalized": 1.357171654701233,
+    "obo": 0.039735099337748346
+  },
+  "config": {
+    "batch_size": 8,
+    "max_steps": 16000,
+    "lr": 0.0001,
+    "device": "cuda",
+    "eval_split": "test",
+    "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full"
+  }
+}

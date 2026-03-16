@@ -1,0 +1,17 @@
+{
+  "model": "x3d",
+  "split": "test",
+  "n_videos": 151,
+  "mae_raw": 11.516839191810973,
+  "mae_norm": 0.8898519070976961,
+  "mae_norm_p1": 0.8663358146733198,
+  "obo": 0.09271523178807947,
+  "mae_round": 11.496688741721854,
+  "mae_round_norm": 0.885109935373144,
+  "mae_round_norm_p1": 0.8620202073377847,
+  "obo_round": 0.12582781456953643,
+  "exact_round": 0.019867549668874173,
+  "checkpoint": "transrac_replication\\experiments\\paper_methods_cached16k\\x3d\\model_last.pt",
+  "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full",
+  "out_csv": "transrac_replication\\experiments\\x3d_cached16k_test_predictions.csv"
+}

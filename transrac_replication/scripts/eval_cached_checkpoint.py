@@ -15,7 +15,12 @@ from transrac_replication.models.transrac_model import TransRACConfig, TransRACM
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Evaluate cached-embedding checkpoint with detailed metrics.")
-    parser.add_argument("--model", type=str, choices=["transrac", "repnet", "zhang"], required=True)
+    parser.add_argument(
+        "--model",
+        type=str,
+        choices=["transrac", "repnet", "zhang", "x3d", "tanet", "videoswint", "huang"],
+        required=True,
+    )
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--cache-dir", type=Path, default=Path("transrac_replication/experiments/cache_embeddings_full"))
     parser.add_argument("--split", type=str, default="test", choices=["train", "valid", "test"])

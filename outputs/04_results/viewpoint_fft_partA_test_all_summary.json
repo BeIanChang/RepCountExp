@@ -1,0 +1,14 @@
+{
+  "n_videos": 152,
+  "n_failed": 0,
+  "mae_raw": 5.686845632674284,
+  "mae_norm": 0.4992024273266245,
+  "mae_norm_p1": 0.5021693658929488,
+  "obo": 0.16447368421052633,
+  "window": 256,
+  "step": 1,
+  "anchor_frames": 30,
+  "min_hz": 0.1,
+  "max_hz": 4.0,
+  "out_csv": "outputs\\04_results\\viewpoint_fft_partA_test_all.csv"
+}

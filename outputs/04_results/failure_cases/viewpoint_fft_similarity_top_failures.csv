@@ -1,0 +1,4 @@
+video_id,split,action,true_count,pred_count,abs_err,status,method,is_obo,norm_err,norm_err_p1
+stu4_27,test,jump_jack,56,93.90625,37.90625,ok,viewpoint_fft_similarity,False,0.6768973214285714,0.6756907308377896
+stu4_5,test,bench_pressing,41,3.703125,37.296875,ok,viewpoint_fft_similarity,False,0.9096798780487804,0.9074665450121654
+stu5_23,test,jump_jack,52,83.5,31.5,ok,viewpoint_fft_similarity,False,0.6057692307692307,0.6046065259117083

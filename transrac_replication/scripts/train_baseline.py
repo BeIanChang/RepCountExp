@@ -13,8 +13,13 @@ from transrac_replication.utils.seed import set_seed
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train cached-embedding baselines (RepNet-like / Zhang-like).")
-    parser.add_argument("--model", type=str, choices=["repnet", "zhang"], required=True)
+    parser = argparse.ArgumentParser(description="Train cached-embedding baselines.")
+    parser.add_argument(
+        "--model",
+        type=str,
+        choices=["repnet", "zhang", "x3d", "tanet", "videoswint", "huang"],
+        required=True,
+    )
     parser.add_argument(
         "--cache-dir",
         type=Path,

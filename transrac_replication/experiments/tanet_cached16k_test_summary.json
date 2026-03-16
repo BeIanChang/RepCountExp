@@ -1,0 +1,17 @@
+{
+  "model": "tanet",
+  "split": "test",
+  "n_videos": 151,
+  "mae_raw": 12.158758149710515,
+  "mae_norm": 1.3571721535955623,
+  "mae_norm_p1": 1.3150841455490074,
+  "obo": 0.039735099337748346,
+  "mae_round": 12.165562913907285,
+  "mae_round_norm": 1.3599485064594994,
+  "mae_round_norm_p1": 1.3176333237593618,
+  "obo_round": 0.06622516556291391,
+  "exact_round": 0.033112582781456956,
+  "checkpoint": "transrac_replication\\experiments\\paper_methods_cached16k\\tanet\\model_last.pt",
+  "cache_dir": "transrac_replication\\experiments\\cache_embeddings_full",
+  "out_csv": "transrac_replication\\experiments\\tanet_cached16k_test_predictions.csv"
+}

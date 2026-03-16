@@ -1,0 +1,804 @@
+{
+  "phase_csv": "outputs\\04_results\\phase_native_online_partA_test_all_softpenalty.csv",
+  "peak_online_csv": "outputs\\04_results\\baseline_peak_online_partA_test_all.csv",
+  "selected_confidence_col": "mean_confidence",
+  "selected_threshold": 0.0,
+  "calib": {
+    "n": 84.0,
+    "fallback_fraction": 0.0,
+    "phase_mae_norm_p1": 0.7057475339316776,
+    "peak_online_mae_norm_p1": 1.604345911561752,
+    "hybrid_mae_norm_p1": 0.7057475339316776,
+    "phase_obo": 0.2976190476190476,
+    "peak_online_obo": 0.25,
+    "hybrid_obo": 0.2976190476190476,
+    "phase_mae": 5.119047619047619,
+    "peak_online_mae": 6.190476190476191,
+    "hybrid_mae": 5.119047619047619
+  },
+  "holdout": {
+    "n": 68.0,
+    "fallback_fraction": 0.0,
+    "phase_mae_norm_p1": 0.4728608617358116,
+    "peak_online_mae_norm_p1": 0.8160697940301861,
+    "hybrid_mae_norm_p1": 0.4728608617358116,
+    "phase_obo": 0.19117647058823528,
+    "peak_online_obo": 0.27941176470588236,
+    "hybrid_obo": 0.19117647058823528,
+    "phase_mae": 5.235294117647059,
+    "peak_online_mae": 6.485294117647059,
+    "hybrid_mae": 5.235294117647059
+  },
+  "full": {
+    "n": 152.0,
+    "fallback_fraction": 0.0,
+    "phase_mae_norm_p1": 0.6015613911072112,
+    "peak_online_mae_norm_p1": 1.251696069508157,
+    "hybrid_mae_norm_p1": 0.6015613911072112,
+    "phase_obo": 0.25,
+    "peak_online_obo": 0.2631578947368421,
+    "hybrid_obo": 0.25,
+    "phase_mae": 5.171052631578948,
+    "peak_online_mae": 6.322368421052632,
+    "hybrid_mae": 5.171052631578948
+  },
+  "search_rows": [
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.0,
+      "calib_mae_norm_p1": 0.7057475339316776,
+      "calib_mae": 5.119047619047619,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.6110841571036734,
+      "calib_mae_norm_p1": 0.7163721456423341,
+      "calib_mae": 4.904761904761905,
+      "calib_obo": 0.30952380952380953
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.6381547625301164,
+      "calib_mae_norm_p1": 0.8126369825500843,
+      "calib_mae": 5.178571428571429,
+      "calib_obo": 0.32142857142857145
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.6496122405240538,
+      "calib_mae_norm_p1": 0.8374310123719543,
+      "calib_mae": 5.476190476190476,
+      "calib_obo": 0.3333333333333333
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.6625914399989016,
+      "calib_mae_norm_p1": 0.8374120621346305,
+      "calib_mae": 5.166666666666667,
+      "calib_obo": 0.32142857142857145
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.670717130156296,
+      "calib_mae_norm_p1": 0.8439579755818074,
+      "calib_mae": 5.107142857142857,
+      "calib_obo": 0.30952380952380953
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.6756522665387255,
+      "calib_mae_norm_p1": 1.4534122813402293,
+      "calib_mae": 5.511904761904762,
+      "calib_obo": 0.32142857142857145
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.6810257004709149,
+      "calib_mae_norm_p1": 1.455954313578602,
+      "calib_mae": 5.440476190476191,
+      "calib_obo": 0.32142857142857145
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.6917001150526988,
+      "calib_mae_norm_p1": 1.507901037748093,
+      "calib_mae": 5.607142857142857,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.6959708560972674,
+      "calib_mae_norm_p1": 1.5134148639590188,
+      "calib_mae": 5.559523809523809,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.7122516383273074,
+      "calib_mae_norm_p1": 1.5332993609676988,
+      "calib_mae": 5.678571428571429,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.7189929407502135,
+      "calib_mae_norm_p1": 1.5338151790732,
+      "calib_mae": 5.7023809523809526,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.7291627466394258,
+      "calib_mae_norm_p1": 1.5280264745421983,
+      "calib_mae": 5.523809523809524,
+      "calib_obo": 0.30952380952380953
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.7351358704787688,
+      "calib_mae_norm_p1": 1.5449765109300067,
+      "calib_mae": 5.7023809523809526,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.7407547618626044,
+      "calib_mae_norm_p1": 1.568592270311125,
+      "calib_mae": 5.869047619047619,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.7528166347993865,
+      "calib_mae_norm_p1": 1.5731669032730267,
+      "calib_mae": 5.916666666666667,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.7584415590485597,
+      "calib_mae_norm_p1": 1.583264268684371,
+      "calib_mae": 6.035714285714286,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "mean_confidence",
+      "threshold": 0.7687632898059514,
+      "calib_mae_norm_p1": 1.6096195665561506,
+      "calib_mae": 6.285714285714286,
+      "calib_obo": 0.23809523809523808
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.32419408077536727,
+      "calib_mae_norm_p1": 0.7419555655314143,
+      "calib_mae": 5.214285714285714,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.3964085426017596,
+      "calib_mae_norm_p1": 0.745011981742214,
+      "calib_mae": 5.0476190476190474,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.42640844207916373,
+      "calib_mae_norm_p1": 0.8215417787823031,
+      "calib_mae": 5.25,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.47148798998822955,
+      "calib_mae_norm_p1": 0.8676447372226817,
+      "calib_mae": 5.690476190476191,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.48989232853159737,
+      "calib_mae_norm_p1": 0.8789077461673231,
+      "calib_mae": 5.440476190476191,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.5251986676384184,
+      "calib_mae_norm_p1": 0.8536316304853574,
+      "calib_mae": 4.904761904761905,
+      "calib_obo": 0.30952380952380953
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.5567865719890788,
+      "calib_mae_norm_p1": 1.491785469986262,
+      "calib_mae": 5.428571428571429,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.582047479804937,
+      "calib_mae_norm_p1": 1.5304675880339702,
+      "calib_mae": 5.773809523809524,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.6173750641623926,
+      "calib_mae_norm_p1": 1.5365621296932919,
+      "calib_mae": 5.714285714285714,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.653416444881881,
+      "calib_mae_norm_p1": 1.5454758218996243,
+      "calib_mae": 5.761904761904762,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.687063623293196,
+      "calib_mae_norm_p1": 1.5577749027270618,
+      "calib_mae": 5.869047619047619,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.7279657387353872,
+      "calib_mae_norm_p1": 1.5571452971006754,
+      "calib_mae": 5.964285714285714,
+      "calib_obo": 0.25
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.7748362394759072,
+      "calib_mae_norm_p1": 1.5628975185750906,
+      "calib_mae": 5.964285714285714,
+      "calib_obo": 0.23809523809523808
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.8359860543904271,
+      "calib_mae_norm_p1": 1.5525933158481418,
+      "calib_mae": 5.607142857142857,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.8631017563913885,
+      "calib_mae_norm_p1": 1.5543845730740986,
+      "calib_mae": 5.630952380952381,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.8992382503283747,
+      "calib_mae_norm_p1": 1.5563027777572802,
+      "calib_mae": 5.630952380952381,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.9210484630598499,
+      "calib_mae_norm_p1": 1.5716442845337864,
+      "calib_mae": 5.916666666666667,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_phase",
+      "threshold": 0.9640960754882061,
+      "calib_mae_norm_p1": 1.5652609247741336,
+      "calib_mae": 5.821428571428571,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.771022835958324,
+      "calib_mae_norm_p1": 0.7143200686366166,
+      "calib_mae": 5.142857142857143,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.8419086983212442,
+      "calib_mae_norm_p1": 0.7164360857726431,
+      "calib_mae": 5.166666666666667,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.8534156650398161,
+      "calib_mae_norm_p1": 0.7194247055011679,
+      "calib_mae": 5.190476190476191,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.8596674404770821,
+      "calib_mae_norm_p1": 0.7180847598335359,
+      "calib_mae": 5.095238095238095,
+      "calib_obo": 0.30952380952380953
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.8763009926925536,
+      "calib_mae_norm_p1": 0.7232315423786458,
+      "calib_mae": 5.071428571428571,
+      "calib_obo": 0.32142857142857145
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.8835128560771742,
+      "calib_mae_norm_p1": 0.7458618013186362,
+      "calib_mae": 5.25,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.886369017862887,
+      "calib_mae_norm_p1": 0.7927448466959297,
+      "calib_mae": 5.428571428571429,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.8947709199195276,
+      "calib_mae_norm_p1": 0.7853066335779979,
+      "calib_mae": 5.2976190476190474,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.906777513885374,
+      "calib_mae_norm_p1": 0.7942339397532484,
+      "calib_mae": 5.071428571428571,
+      "calib_obo": 0.30952380952380953
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.9133550492847736,
+      "calib_mae_norm_p1": 0.8055059486382987,
+      "calib_mae": 5.345238095238095,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.921642480241105,
+      "calib_mae_norm_p1": 0.83667627186412,
+      "calib_mae": 5.416666666666667,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.9251364874554185,
+      "calib_mae_norm_p1": 1.444425846485112,
+      "calib_mae": 5.595238095238095,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.9309652370821845,
+      "calib_mae_norm_p1": 1.4582840214877533,
+      "calib_mae": 5.738095238095238,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.9354264746705389,
+      "calib_mae_norm_p1": 1.4678028746652043,
+      "calib_mae": 5.845238095238095,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.938053093082574,
+      "calib_mae_norm_p1": 1.4784985752211472,
+      "calib_mae": 5.595238095238095,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.9461526722898628,
+      "calib_mae_norm_p1": 1.4877156391660666,
+      "calib_mae": 5.4523809523809526,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.9558414695116416,
+      "calib_mae_norm_p1": 1.5452242801163218,
+      "calib_mae": 5.595238095238095,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_r",
+      "threshold": 0.9680388865737447,
+      "calib_mae_norm_p1": 1.5759440619984986,
+      "calib_mae": 5.714285714285714,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.18744358067587452,
+      "calib_mae_norm_p1": 0.713213121218315,
+      "calib_mae": 4.988095238095238,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.22187916423072765,
+      "calib_mae_norm_p1": 0.7152758725696815,
+      "calib_mae": 5.023809523809524,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.23203701284890138,
+      "calib_mae_norm_p1": 0.7966930548271999,
+      "calib_mae": 5.309523809523809,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.2430592430802426,
+      "calib_mae_norm_p1": 0.7864822682777876,
+      "calib_mae": 5.035714285714286,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.25024852705030326,
+      "calib_mae_norm_p1": 1.3960026905161962,
+      "calib_mae": 5.154761904761905,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.2532308854482838,
+      "calib_mae_norm_p1": 1.4806825388804326,
+      "calib_mae": 5.523809523809524,
+      "calib_obo": 0.25
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.2567125794698803,
+      "calib_mae_norm_p1": 1.4653963508297552,
+      "calib_mae": 5.321428571428571,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.2640638006686554,
+      "calib_mae_norm_p1": 1.4927047888741687,
+      "calib_mae": 5.583333333333333,
+      "calib_obo": 0.25
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.2681910336542689,
+      "calib_mae_norm_p1": 1.5159519363636005,
+      "calib_mae": 5.476190476190476,
+      "calib_obo": 0.25
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.2770351511103887,
+      "calib_mae_norm_p1": 1.5091518377398732,
+      "calib_mae": 5.345238095238095,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.2896393705310362,
+      "calib_mae_norm_p1": 1.5464479803491091,
+      "calib_mae": 5.5,
+      "calib_obo": 0.23809523809523808
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.29979722080666465,
+      "calib_mae_norm_p1": 1.565223902680345,
+      "calib_mae": 5.928571428571429,
+      "calib_obo": 0.25
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.311999975003858,
+      "calib_mae_norm_p1": 1.560204454615393,
+      "calib_mae": 5.892857142857143,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.3323519597075394,
+      "calib_mae_norm_p1": 1.581247305137789,
+      "calib_mae": 6.071428571428571,
+      "calib_obo": 0.25
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.3467112169405444,
+      "calib_mae_norm_p1": 1.5950857150677418,
+      "calib_mae": 6.321428571428571,
+      "calib_obo": 0.23809523809523808
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.372513934434615,
+      "calib_mae_norm_p1": 1.5974453852720665,
+      "calib_mae": 6.273809523809524,
+      "calib_obo": 0.23809523809523808
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.3857442266148143,
+      "calib_mae_norm_p1": 1.5920368709276553,
+      "calib_mae": 6.083333333333333,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_var",
+      "threshold": 0.40051737166470425,
+      "calib_mae_norm_p1": 1.5962947612428406,
+      "calib_mae": 6.178571428571429,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.45639543533298343,
+      "calib_mae_norm_p1": 0.7705019700988389,
+      "calib_mae": 5.380952380952381,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.4653804976318761,
+      "calib_mae_norm_p1": 0.8255814036849624,
+      "calib_mae": 5.095238095238095,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.4720654488388941,
+      "calib_mae_norm_p1": 0.7997139420082623,
+      "calib_mae": 4.654761904761905,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.48910603032651706,
+      "calib_mae_norm_p1": 0.8064568115834388,
+      "calib_mae": 4.845238095238095,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.5066681551569177,
+      "calib_mae_norm_p1": 0.8180977452598532,
+      "calib_mae": 4.9523809523809526,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.5162742956316251,
+      "calib_mae_norm_p1": 1.4070199796279539,
+      "calib_mae": 4.773809523809524,
+      "calib_obo": 0.30952380952380953
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.5262594705515772,
+      "calib_mae_norm_p1": 1.4409007337921824,
+      "calib_mae": 5.130952380952381,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.5584563485947394,
+      "calib_mae_norm_p1": 1.469328732144993,
+      "calib_mae": 5.2976190476190474,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.5811431182126758,
+      "calib_mae_norm_p1": 1.5039363493623892,
+      "calib_mae": 5.523809523809524,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.6046175032580814,
+      "calib_mae_norm_p1": 1.506116636307234,
+      "calib_mae": 5.476190476190476,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.6251169612029361,
+      "calib_mae_norm_p1": 1.5391119958902242,
+      "calib_mae": 5.690476190476191,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.6512460973321198,
+      "calib_mae_norm_p1": 1.5424717175005764,
+      "calib_mae": 5.714285714285714,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.6844410466534266,
+      "calib_mae_norm_p1": 1.5556330103865252,
+      "calib_mae": 5.773809523809524,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.7049573228314338,
+      "calib_mae_norm_p1": 1.5673360685897457,
+      "calib_mae": 5.916666666666667,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.7240139606386924,
+      "calib_mae_norm_p1": 1.572476322870511,
+      "calib_mae": 5.845238095238095,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.740323302227467,
+      "calib_mae_norm_p1": 1.5753730280778542,
+      "calib_mae": 5.833333333333333,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.7537510160278271,
+      "calib_mae_norm_p1": 1.5812372569768454,
+      "calib_mae": 5.904761904761905,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_flip",
+      "threshold": 0.7673038620712904,
+      "calib_mae_norm_p1": 1.590851836566315,
+      "calib_mae": 6.071428571428571,
+      "calib_obo": 0.2619047619047619
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.17702134250240334,
+      "calib_mae_norm_p1": 0.7209750884895247,
+      "calib_mae": 5.321428571428571,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.19115778113951,
+      "calib_mae_norm_p1": 0.7237872905322623,
+      "calib_mae": 5.357142857142857,
+      "calib_obo": 0.2976190476190476
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.20414778898470723,
+      "calib_mae_norm_p1": 0.7486754222827295,
+      "calib_mae": 5.5,
+      "calib_obo": 0.2857142857142857
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.21944526282022092,
+      "calib_mae_norm_p1": 0.7567349841356396,
+      "calib_mae": 5.595238095238095,
+      "calib_obo": 0.27380952380952384
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.23212934723950426,
+      "calib_mae_norm_p1": 0.7824338677630707,
+      "calib_mae": 5.785714285714286,
+      "calib_obo": 0.23809523809523808
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.24357749156377717,
+      "calib_mae_norm_p1": 0.8019579993335215,
+      "calib_mae": 6.130952380952381,
+      "calib_obo": 0.2261904761904762
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.2467296582949596,
+      "calib_mae_norm_p1": 0.8199991965752941,
+      "calib_mae": 6.226190476190476,
+      "calib_obo": 0.23809523809523808
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.2542168061438796,
+      "calib_mae_norm_p1": 0.8201276976717987,
+      "calib_mae": 6.119047619047619,
+      "calib_obo": 0.25
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.2781721355376857,
+      "calib_mae_norm_p1": 0.8398689802443974,
+      "calib_mae": 6.273809523809524,
+      "calib_obo": 0.2261904761904762
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.29093075119268474,
+      "calib_mae_norm_p1": 0.842798708286106,
+      "calib_mae": 6.214285714285714,
+      "calib_obo": 0.21428571428571427
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.29990484800097855,
+      "calib_mae_norm_p1": 0.8598783239216921,
+      "calib_mae": 6.226190476190476,
+      "calib_obo": 0.2261904761904762
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.307174425798775,
+      "calib_mae_norm_p1": 1.5346826809262015,
+      "calib_mae": 6.559523809523809,
+      "calib_obo": 0.21428571428571427
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.32909589235554787,
+      "calib_mae_norm_p1": 1.5675839797106481,
+      "calib_mae": 6.75,
+      "calib_obo": 0.17857142857142858
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.3434411292649699,
+      "calib_mae_norm_p1": 1.5731142190654892,
+      "calib_mae": 6.809523809523809,
+      "calib_obo": 0.16666666666666666
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.36564378245029605,
+      "calib_mae_norm_p1": 1.6014396077718651,
+      "calib_mae": 6.9523809523809526,
+      "calib_obo": 0.15476190476190477
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.3971036757635698,
+      "calib_mae_norm_p1": 1.6203740376157385,
+      "calib_mae": 6.630952380952381,
+      "calib_obo": 0.17857142857142858
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.42919562475086703,
+      "calib_mae_norm_p1": 1.6184418494101502,
+      "calib_mae": 6.630952380952381,
+      "calib_obo": 0.17857142857142858
+    },
+    {
+      "conf_col": "conf_pause",
+      "threshold": 0.4397742720225381,
+      "calib_mae_norm_p1": 1.6117496938119185,
+      "calib_mae": 6.416666666666667,
+      "calib_obo": 0.21428571428571427
+    }
+  ],
+  "out_csv": "outputs\\04_results\\phase_native_peak_online_hybrid_partA_test_all.csv"
+}
