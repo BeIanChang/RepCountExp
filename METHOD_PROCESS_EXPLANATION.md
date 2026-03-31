@@ -237,7 +237,7 @@ where:
 - `MAE`: mean absolute error in repetition count. Lower is better.
 - `MAE_norm_p1`: normalized count error using denominator `(GT + 0.1)`. Lower is better.
 - `OBO`: fraction of videos whose count error is at most 1. Higher is better.
-- `Event-F1`: period-window matching score. A predicted repetition window is matched to a GT repetition window if temporal overlap is large enough (see IoU section below). Higher is better.
+- `Event-F1`: period-window matching score. A predicted repetition window is matched to a GT repetition window if endpoint matches within 10 frames.
 
 ### Results
 
