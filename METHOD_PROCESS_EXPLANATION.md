@@ -1,17 +1,9 @@
 # Phase-Based Method Explanation
 
-This note focuses only on the phase-based branch of the project.
-
 ## Goal
 
 Given a video, estimate repetition count $\hat{C}$ from pose-derived motion signals.
 
-We keep only these methods in focus:
-
-- `phase_native_online`
-- `phase_native_online (soft-penalty)`
-- `baseline_peak_online`
-- `phase_native_peak_online_hybrid`
 
 ## Signals
 
@@ -259,7 +251,7 @@ where:
 | Quantity | Total accepted / GT | Total produced | Mean | Median | Std | Min | Max |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | GT periods per video | 2456 | - | 16.1579 | 10.5000 | 15.3816 | 0 | 92 |
-| baseline_peak_online predicted periods per video | 2607 | - | 17.1513 | 10.5000 | 17.2389 | 0 | 92 |
+| baseline_peak_online predicted periods per video | 2607 | 2968 | 17.1513 | 10.5000 | 17.2389 | 0 | 92 |
 | zero_crossing accepted candidates per video | 1822 | 3572 | 11.9868 | 7.0000 | 13.6401 | 0 | 87 |
 
 Interpretation:
