@@ -4,21 +4,6 @@ This short note records per-joint 0-10s signal visualizations for representative
 
 For each selected video, we generate one figure per interested joint/signal. Therefore, if a video has `n` configured signals, it produces `n` figures.
 
-## What Each Figure Contains
-
-For each joint/signal, one figure is generated with two panels:
-
-- wrapped phi variants:
-  - base wrapped phi
-  - filtered wrapped phi
-  - low-band wrapped phi
-- theta variants:
-  - raw theta
-  - smoothed theta
-  - low-band theta
-
-All phi curves are wrapped-phase views. Unwrapped phi is intentionally omitted here so that branch-cut discontinuities remain visible.
-
 ## Exact Definitions Used
 
 - `base wrapped phi`:
@@ -50,29 +35,6 @@ Ground-truth repetition boundaries:
 - black dotted vertical lines = GT repetition end time
 - GT frame indices are read from `periods_json` in `outputs/00_index/subset_partA_test_all.csv` and converted to seconds using the video FPS
 
-## Output Directories
-
-- `docs/assets/joint_variant_two_videos`
-- `docs/assets/joint_variant_requested_videos`
-
-## Squat: `stu4_63`
-
-### Clip Preview (0-10s)
-
-![stu4_63 gif](assets/joint_variant_two_videos/stu4_63_0_10s.gif)
-
-### `knee_flex`
-
-![stu4_63 knee_flex](assets/joint_variant_two_videos/stu4_63_knee_flex_theta_phi_0_10s.png)
-
-### `hip_flex`
-
-![stu4_63 hip_flex](assets/joint_variant_two_videos/stu4_63_hip_flex_theta_phi_0_10s.png)
-
-### `trunk_pitch`
-
-![stu4_63 trunk_pitch](assets/joint_variant_two_videos/stu4_63_trunk_pitch_theta_phi_0_10s.png)
-
 ## Push-up: `stu10_43`
 
 ### Clip Preview (0-10s)
@@ -90,24 +52,6 @@ Ground-truth repetition boundaries:
 ### `trunk_pitch`
 
 ![stu10_43 trunk_pitch](assets/joint_variant_two_videos/stu10_43_trunk_pitch_theta_phi_0_10s.png)
-
-## Squat: `stu9_71`
-
-### Clip Preview (0-10s)
-
-![stu9_71 gif](assets/joint_variant_requested_videos/stu9_71_0_10s.gif)
-
-### `knee_flex`
-
-![stu9_71 knee_flex](assets/joint_variant_requested_videos/stu9_71_knee_flex_theta_phi_0_10s.png)
-
-### `hip_flex`
-
-![stu9_71 hip_flex](assets/joint_variant_requested_videos/stu9_71_hip_flex_theta_phi_0_10s.png)
-
-### `trunk_pitch`
-
-![stu9_71 trunk_pitch](assets/joint_variant_requested_videos/stu9_71_trunk_pitch_theta_phi_0_10s.png)
 
 ## Squat: `stu9_64`
 
@@ -144,16 +88,3 @@ Ground-truth repetition boundaries:
 ### `trunk_pitch`
 
 ![stu8_46 trunk_pitch](assets/joint_variant_requested_videos/stu8_46_trunk_pitch_theta_phi_0_10s.png)
-
-## Summary CSVs
-
-- `docs/assets/joint_variant_two_videos/summary.csv`
-- `docs/assets/joint_variant_requested_videos/summary.csv`
-
-## Notes
-
-- These figures are intended for qualitative explanation of signal behavior.
-- Wrapped phi preserves discontinuities at the phase branch cut.
-- All wrapped-phi variants use the same normalization style; the only difference is whether the source signal is raw, smoothed, or low-band filtered.
-- Smoothed theta is the signal used in the current phase pipeline before phase construction.
-- Low-band theta/phi are additional comparison views and are not yet part of the main counting pipeline.
